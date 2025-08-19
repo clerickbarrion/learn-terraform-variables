@@ -113,7 +113,8 @@ module "elb_http" {
 }
 
 module "ec2_instances" {
-  source = "./modules/aws-instance"
+  source  = "app.terraform.io/<Your-Org>/ec2-instance-tests-{your-initials}/aws"
+  version = "1.0.0"
 
   instance_count     = var.instance_count
   instance_type      = var.instance_type
@@ -121,12 +122,7 @@ module "ec2_instances" {
   security_group_ids = [module.app_security_group.this_security_group_id]
 
   tags = {
-    project     = "project-alpha",
-    environment = "development"
+    project     = "project-alpha"
+    environment = "dev"
   }
-}
-module "s3_bucket" {
-  source  = "app.terraform.io/clerickbarrion/s3-bucket-cb/aws"
-  version = "1.0.0"
-  bucket_name = "my-bucket"
 }
