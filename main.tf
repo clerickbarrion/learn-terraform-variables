@@ -113,7 +113,7 @@ module "elb_http" {
 }
 
 module "ec2_instances" {
-  source  = "app.terraform.io/clerickbarrion/ec2-instance-tests-ab/aws"
+  source  = "app.terraform.io/policy-as-code-training/ec2-instance-tests-ab/aws"
   version = "1.0.0"
 
   instance_count     = var.instance_count
