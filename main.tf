@@ -118,7 +118,7 @@ module "elb_http" {
 # Use remote module from HCP Terraform
 module "ec2_instances" {
   source  = "app.terraform.io/policy-as-code-training/ec2-instance-tests-cb/aws"
- version = "1.1.0"
+ version = "1.0.0"
 
   instance_count     = 2
   instance_type      = "t2.micro"  # Valid value
