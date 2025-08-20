@@ -1,12 +1,16 @@
 # tests/ec2_instance_tests.tftest.hcl
+
 # Mock the AWS provider to avoid credential issues
 mock_provider "aws" {}
+
+# Mock the availability zones data source
 override_data {
   target = data.aws_availability_zones.available
   values = {
     names = ["us-west-1a", "us-west-1b", "us-west-1c"]
   }
 }
+
 variables {
   instance_count = 2
   instance_type  = "t2.micro"
