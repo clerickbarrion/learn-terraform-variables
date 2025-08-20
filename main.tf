@@ -1,20 +1,21 @@
 terraform {
-  cloud {
-    organization = "policy-as-code-training"
-    workspaces {
-      name = "tf-vault-qa-cb"
-    }
-  }
-  required_providers {
+  # cloud {
+  #   organization = "policy-as-code-training"
+  #   workspaces {
+  #     name = "tf-vault-qa-AB"
+  #   }
+  # }
+   required_providers {
     aws = {
       source  = "hashicorp/aws"
+      version = "~> 3.76.0"
     }
   }
 }
-
 provider "aws" {
-  region = "us-west-1"
+  region  = "us-west-1"
 }
+
 
 data "aws_availability_zones" "available" {
   state = "available"
@@ -51,7 +52,7 @@ module "app_security_group" {
 
   tags = {
     project     = "project-alpha",
-    environment = "development"
+    environment = "dev"
   }
 }
 
@@ -67,7 +68,7 @@ module "lb_security_group" {
 
   tags = {
     project     = "project-alpha",
-    environment = "development"
+    environment = "dev"
   }
 }
 
@@ -108,21 +109,24 @@ module "elb_http" {
 
   tags = {
     project     = "project-alpha",
-    environment = "development"
+    environment = "dev"
   }
 }
 
+# main.tf
+
+# Use remote module from HCP Terraform
 module "ec2_instances" {
   source  = "app.terraform.io/policy-as-code-training/ec2-instance-tests-ab/aws"
-  version = "1.0.0"
+ version = "1.1.0"
 
-  instance_count     = var.instance_count
-  instance_type      = var.instance_type
+  instance_count     = 2
+  instance_type      = "t2.micro"  # Valid value
   subnet_ids         = module.vpc.private_subnets[*]
   security_group_ids = [module.app_security_group.this_security_group_id]
 
   tags = {
-    project     = "project-alpha"
+    project     = "project-alpha"  # Valid value
     environment = "dev"
   }
 }
